@@ -1,0 +1,32 @@
+ethclient.Client
+gethclient.Client
+dnsdisc.Client
+simulations.Client
+rpc.Client
+
+librato.LibratoClient
+
+※ ethclient.Client → gethclient.Client
+ethclient.Client → dnsdisc.Client
+ethclient.Client → simulations.Client
+√ ethclient.Client → rpc.Client    cl.Client()
+
+※ gethclient.Client → ethclient.Client
+gethclient.Client → dnsdisc.Client
+gethclient.Client → simulations.Client
+√ gethclient.Client → rpc.Client type Client222 struct {C *rpc.Client};cl := (*Client222)(unsafe.Pointer(cl2)).C 
+
+dnsdisc.Client → ethclient.Client
+dnsdisc.Client → gethclient.Client
+dnsdisc.Client → simulations.Client
+dnsdisc.Client → rpc.Client  
+
+simulations.Client → ethclient.Client
+simulations.Client → gethclient.Client
+simulations.Client → dnsdisc.Client
+simulations.Client → rpc.Client 
+
+√ rpc.Client → ethclient.Client  ethclient.NewClient(rpcClient)
+√ rpc.Client → gethclient.Client gethclient.New(rpcClient)
+rpc.Client → dnsdisc.Client
+rpc.Client → simulations.Client

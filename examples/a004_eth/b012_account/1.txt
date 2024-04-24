@@ -1,0 +1,9 @@
+accounts.Account：Account代表一个以可选URL字段定义的特定位置上的Ethereum账户。
+state.DumpAccount：DumpAccount代表了一个账户在状态中的表示。
+types.Account:Account表示一个以太坊账户及其附加数据。这种类型用于指定创世区块状态中的账户，并且在以太坊账户的JSON编码/解码中也非常有用。
+types.StateAccount：Account代表一个以太坊账户及其附加数据。该类型用于指定创世块状态中的账户，并且对于账户的JSON编码/解码也很有用。StateAccount是以太坊账户的共识表示。这些对象存储在主账户Trie中。
+types.SlimAccount：SlimAccount是Account的修改版本，其中根被替换为字节切片。该格式可用于表示完整共识格式或替代空根和代码哈希为零字节切片的精简格式。
+gethclient.OverrideAccount：OverrideAccount指定要覆盖的账户的状态。
+graphql.Account：OverrideAccount指定了特定块上以太坊账户的状态。
+ethapi.OverrideAccount：OverrideAccount指定了在消息调用执行期间账户的覆盖字段。注意，state和stateDiff不能同时指定。如果设置了state，则消息执行将仅使用给定状态中的数据。否则，如果设置了statDiff，则首先将应用所有差异，然后执行调用消息。
+

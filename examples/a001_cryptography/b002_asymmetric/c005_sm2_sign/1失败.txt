@@ -1,0 +1,111 @@
+package main
+
+import (
+	"crypto/rand"
+	"encoding/hex"
+	"fmt"
+	"io/ioutil"
+
+	"github.com/tjfoc/gmsm/sm2"
+)
+
+func main12_1() {
+	privateKey, err := sm2.GenerateKey(rand.Reader)
+	if err != nil {
+		fmt.Println("秘钥对生成失败!")
+		return
+	}
+	//从私钥中获取公钥
+	publicKey := &privateKey.PublicKey
+	//消息
+	msg := []byte("兄弟连")
+	//公钥加密
+	encrypt_msg, err := publicKey.Encrypt(msg)
+	if err != nil {
+		fmt.Println("加密失败")
+		return
+	} else {
+		fmt.Println("encrypt_msg = ", hex.EncodeToString(encrypt_msg))
+	}
+
+	//私钥解密
+	decrypt_msg, err := privateKey.Decrypt(encrypt_msg)
+	if err != nil {
+		fmt.Println("解密失败!")
+	} else {
+		fmt.Println("decrypt_msg = ", string(decrypt_msg))
+	}
+
+}
+
+// 生成公钥私钥并写入文件
+// privateKeyPath:私钥路径
+// publicKeyPath:公钥路径
+// password:用于加密私钥
+func WriteKeyPairToFile(privateKeyPath, publicKeyPath string, password []byte) error {
+	//生成秘钥对
+	privateKey, err := sm2.GenerateKey(rand.Reader)
+	if err != nil {
+		return err
+	}
+	//私钥写入到文件
+	flag, err := sm2.WritePrivateKeytoPem(privateKeyPath, privateKey, password)
+	if !flag {
+		return err
+	}
+
+	//获得公钥
+	publicKey := privateKey.Public().(*sm2.PublicKey)
+	flag, err = sm2.WritePublicKeytoPem(publicKeyPath, publicKey, nil)
+	if !flag {
+		return err
+	}
+	return nil
+}
+
+// 从文件中读取公钥和私钥
+func ReadKeyPairFromFile(privateKeyPath, publicKeyPath string, password []byte) (*sm2.PrivateKey, *sm2.PublicKey, error) {
+	//读取私钥
+	privateKey, err := sm2.ReadPrivateKeyFromPem(privateKeyPath, password)
+	if err != nil {
+		return nil, nil, err
+	}
+	//读取公钥
+	publicKey, err := sm2.ReadPublicKeyFromPem(publicKeyPath, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	return privateKey, publicKey, nil
+}
+
+func main() {
+	/*	err := WriteKeyPairToFile("private.pem","public.pem", []byte("1234"))
+		if err != nil {
+			fmt.Println("秘钥对写入文件失败!")
+		}*/
+
+	privateKey, publicKey, err := ReadKeyPairFromFile("private.pem", "public.pem", []byte("1234"))
+	if err != nil {
+		fmt.Println("读取公钥私钥失败!")
+		return
+	}
+	//读取待加密的文件
+	file, err := ioutil.ReadFile("E:/1.mp4")
+	if err != nil {
+		fmt.Println("文件读取失败!")
+		return
+	}
+	//签名
+	sig_msg, err := privateKey.Sign(rand.Reader, file, nil)
+	if err != nil {
+		fmt.Println("签名失败!")
+		return
+	}
+
+	flag := publicKey.Verify(file, sig_msg)
+	if flag {
+		fmt.Println("验证成功")
+	} else {
+		fmt.Println("验证失败")
+	}
+}

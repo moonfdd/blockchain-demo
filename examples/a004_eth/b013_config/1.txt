@@ -1,0 +1,33 @@
+accounts.Config：Config 包含全局账户管理器的设置。TODO（rjl493456442、karalabe、holiman）：在 Clef 取代账户管理时，摆脱它。
+types.ChainConfig：ChainConfig包含了信标链的配置信息。
+console.Config：Config是用于调整JavaScript控制台行为的配置集合。
+core.CacheConfig：CacheConfig 包含用于 Trie 数据库和状态快照的配置数值，这些数值存储在区块链中。
+state.DumpConfig：DumpConfig 是一组选项，用于控制状态中的哪些部分将被遍历和收集。
+pruner.Config：Config 包含了所有的修剪配置。
+snapshot.Config：Config包含了快照配置。
+blobpool.Config:Config 是 blob 交易池的配置参数。
+legacypool.Config：Config 是交易池的配置参数。
+vm.Config：Config 是解释器的配置选项
+rutime.Config：Config 是一个基本类型，用于指定运行 EVM（以太坊虚拟机）时的某些配置标志。
+ethconfig.Config：Config 包含 ETH 和 LES 协议的配置选项。
+filters.Config：Config 表示过滤器系统的配置。
+gasprice.Config：
+tracers.TraceConfig：TraceConfig 保存了用于追踪函数的额外参数。
+tracers.TraceCallConfig：TraceCallConfig 是 traceCall API 的配置。它包含一个额外的字段，用于在追踪时覆盖状态。
+tracers.StdTraceConfig：StdTraceConfig 保存了用于标准 JSON 追踪函数的额外参数。
+logger.Config：Config 是 EVM 结构化日志器的配置选项
+metrics.Config：Config 包含度量数据收集的配置。
+metrics.GraphiteConfig：GraphiteConfig 提供了一个包含 Graphite 导出器配置参数的容器。
+metrics.OpenTSDBConfig：OpenTSDBConfig 提供了一个包含 OpenTSDB 导出器配置参数的容器。
+miner.Config：Config 是挖矿的配置参数。
+node.Config：Config 表示一组小的配置值集合，用于微调协议栈中的 P2P 网络层。这些值可以被所有已注册的服务进一步扩展。
+p2p.Config：Config 包含服务器选项。
+discover.Config：Config 包含用于发现监听器的设置。
+dnsdisc.Config：Config保存了客户端的配置选项。
+simulations.NetworkConfig：NetworkConfig 定义了启动网络的配置选项
+adapters.NodeConfig：NodeConfig 是用于在模拟网络中启动节点的配置。
+params.ChainConfig：ChainConfig 是核心配置，决定了区块链的设置。ChainConfig 是按块存储在数据库中的。这意味着任何网络，只要其由创世区块标识，都可以拥有自己的一套配置选项。
+params.CliqueConfig：CliqueConfig是基于权威证明的共识引擎配置。
+triedb.Config：Config 定义了数据库所需的所有必要选项。
+hashdb.Config：Config 包含数据库的设置。
+pathdb.Config：Config 包含了数据库的设置。

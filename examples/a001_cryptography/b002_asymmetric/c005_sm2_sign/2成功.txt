@@ -1,0 +1,58 @@
+package main
+
+import (
+	"crypto/rand"
+	"encoding/pem"
+	"fmt"
+
+	"github.com/tjfoc/gmsm/sm2"
+	"github.com/tjfoc/gmsm/x509"
+)
+
+func main() {
+	// 生成私钥和公钥
+	privateKey, err := sm2.GenerateKey(rand.Reader)
+	if err != nil {
+		fmt.Println("私钥生成失败：", err)
+		return
+	}
+
+	publicKey := &privateKey.PublicKey
+
+	// 待签名的数据
+	data := []byte("Hello, world!")
+
+	// 使用私钥对数据进行签名
+	signature, err := privateKey.Sign(rand.Reader, data, nil)
+	if err != nil {
+		fmt.Println("签名失败：", err)
+		return
+	}
+
+	// 将私钥和签名输出到文件
+	privateKeyBytes, err := x509.MarshalSm2UnecryptedPrivateKey(privateKey)
+	if err != nil {
+		fmt.Println("x509.MarshalPKCS8PrivateKey失败", err)
+		return
+	}
+	privateKeyPem := pem.EncodeToMemory(&pem.Block{
+		Type:  "PRIVATE KEY",
+		Bytes: privateKeyBytes,
+	})
+
+	signaturePem := pem.EncodeToMemory(&pem.Block{
+		Type:  "SIGNATURE",
+		Bytes: signature,
+	})
+
+	fmt.Println("私钥：\r\n", string(privateKeyPem))
+	fmt.Println("签名：\r\n", string(signaturePem))
+
+	// 使用公钥验证签名
+	valid := publicKey.Verify(data, signature)
+	if valid {
+		fmt.Println("签名验证通过")
+	} else {
+		fmt.Println("签名验证失败")
+	}
+}

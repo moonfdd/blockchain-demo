@@ -1,0 +1,4 @@
+solc --abi Storage.sol -o build
+// abigen --abi build/Storage.abi --pkg main --type Storage --out Storage.go
+solc --bin Storage.sol -o build
+abigen --abi build/Storage.abi --pkg main --type Storage --out Storage.go --bin build/Storage.bin
